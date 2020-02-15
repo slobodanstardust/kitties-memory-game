@@ -1,0 +1,22 @@
+.gameCard {
+    display: inline-block;
+    margin: 1em;
+    width: 10em;
+    height: 12em;    
+}
+
+.redCard {
+    background-color: red;
+}
+
+.greenCard {
+    background-color: green;
+}
+
+.blueCard {
+    background-color: blue;
+}
+
+.flipped {
+    opacity: 0.5;
+}
