@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <button id="startGame">Start The Game</button>
     <div id="gameTable">
         <!-- The game starts here. -->
     </div>
@@ -17,11 +18,23 @@
         <!-- Timer here. -->
     </h3>
 
-    <form id="playerInput">
+    <form action="" id="playerInput">
         <input type="text" name="playerName">
-        <button id="submitScore">Submit</button>
+        <button type="button" id="submitScore">Submit Your Score</button>
     </form>
 
-    <button id="timer">Submit</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Time</th>
+                <th>Moves</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="scoreBoard">
+            <!-- Scores go here. -->
+        </tbody>
+    </table>
 </body>
 </html>

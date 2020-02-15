@@ -2,7 +2,7 @@
     display: inline-block;
     margin: 1em;
     width: 10em;
-    height: 12em;    
+    height: 12em;
 }
 
 .redCard {
@@ -19,4 +19,8 @@
 
 .flipped {
     opacity: 0.5;
+}
+
+#playerInput {
+    visibility: hidden;
 }
