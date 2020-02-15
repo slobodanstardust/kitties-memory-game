@@ -1,24 +1,39 @@
 .gameCard {
+    position: relative;
     display: inline-block;
     margin: 1em;
     width: 10em;
     height: 12em;
 }
 
-.redCard {
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: gray;
+    width: 100%;
+    height: 100%;
+}
+.redCard .front {
     background-color: red;
+    width: 100%;
+    height: 100%;
 }
 
-.greenCard {
+.greenCard .front {
     background-color: green;
+    width: 100%;
+    height: 100%;
 }
 
-.blueCard {
+.blueCard .front {
     background-color: blue;
+    width: 100%;
+    height: 100%;
 }
 
-.flipped {
-    opacity: 0.5;
+.flipped .back {
+    visibility: hidden;
 }
 
 #playerInput {

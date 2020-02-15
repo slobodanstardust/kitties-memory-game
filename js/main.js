@@ -16,39 +16,57 @@ function Game () {
   this.players = []
 }
 
-Game.prototype.startGame = function (gameTableElement, timerElement, playerInputElement) {
-  // 'gameTableElement' is for generating the game table.
-  // 'timerElement' is for starting the timer.
-  // 'playerInputElement' is for setting 'hidden' on player input field.
+Game.prototype.startGame = function () {
+  const startElement = document.getElementById('startGame')
+  const gameTableElement = document.getElementById('gameTable')
+  const timerElement = document.getElementById('timer')
+  const playerInputElement = document.getElementById('playerInput')
+  startElement.style.visibility = 'hidden'
   playerInputElement.style.visibility = 'hidden'
+  this.gameState = 'running'
   this.generateTable(gameTableElement)
   this.setTimer(timerElement)
 }
 
-Game.prototype.endGame = function (playerInputElement, submitScoreElement, scoreBoardElement) {
-  // 'submitScoreElement' must be a button.
+Game.prototype.endGame = function () {
+  const startElement = document.getElementById('startGame')
+  const playerInputElement = document.getElementById('playerInput')
+  const submitScoreElement = document.getElementById('submitScore')
   const finalScore = (this.time / this.moves * 1000).toFixed(0)
   playerInputElement.style.visibility = 'visible' // Player can enter a name and submit score only after the game is finished.
+  this.gameState = 'finished'
 
   submitScoreElement.onclick = () => {
     const playerName = playerInputElement.playerName.value // The playerInputElement must contain text input field for entering a player's name with name="playerName".
-    const newPlayer = new Player(playerName, this.time, this.moves, finalScore)
-    this.players.push(newPlayer)
-    this.generateScoreBoard(scoreBoardElement, newPlayer)
-    playerInputElement.style.visibility = 'hidden'
-    console.log(newPlayer)
+    if (playerName === '' || playerName.length > 10) {
+      window.alert('Enter your name (maximum 10 characters)!')
+    } else {
+      const newPlayer = new Player(playerName, this.time, this.moves, finalScore)
+      this.players.push(newPlayer)
+      this.generateScoreBoard(newPlayer)
+      playerInputElement.playerName.value = ''
+      playerInputElement.style.visibility = 'hidden'
+      startElement.style.visibility = 'visible'
+      this.time = 0
+      this.moves = 0
+    }
   }
 }
 
-Game.prototype.generateTable = function (gameTableElement) {
-  // 'gameTableElement' will contain table of cards for the game.
+Game.prototype.generateTable = function () {
+  const gameTableElement = document.getElementById('gameTable')
   gameTableElement.innerHTML = ''
   let gameCard = ''
   let gameDeck = ['redCard', 'redCard', 'greenCard', 'greenCard', 'blueCard', 'blueCard']
   gameDeck = this.shuffleDeck(gameDeck)
 
   gameDeck.forEach(member => {
-    gameCard = `<div class="gameCard ${member}">${member}</div>`
+    gameCard = `
+      <div class="gameCard ${member}">
+        <div class="front">${member}</div>
+        <div class="back">${member}</div>
+      </div>
+    `
     gameTableElement.innerHTML += gameCard
   })
 }
@@ -70,8 +88,8 @@ Game.prototype.shuffleDeck = function (gameDeck) {
   return gameDeck // Returns shuffled array.
 }
 
-Game.prototype.setTimer = function (timerElement) {
-  // 'timerElement' is for displaying time.
+Game.prototype.setTimer = function () {
+  const timerElement = document.getElementById('timer')
   let seconds = 0
   let minutes = 0
 
@@ -87,6 +105,7 @@ Game.prototype.setTimer = function (timerElement) {
       }
 
       timerElement.innerHTML = `${minutes}:${seconds}`
+      console.log(this.time)
     } else if (this.gameState === 'finished') {
       clearInterval(timer)
 
@@ -95,8 +114,8 @@ Game.prototype.setTimer = function (timerElement) {
   }, 1000)
 }
 
-Game.prototype.manageMoves = function (gameTableElement, playerInputElement, submitScoreElement, scoreBoardElement) {
-  // 'gameTableElement' needed for accessing playing cards.
+Game.prototype.manageMoves = function () {
+  const gameTableElement = document.getElementById('gameTable')
   const playingCards = gameTableElement.children
   let firstCard = null
   let secondCard = null
@@ -122,8 +141,7 @@ Game.prototype.manageMoves = function (gameTableElement, playerInputElement, sub
         this.moves++
 
         if (firstCard.isEqualNode(secondCard) && this.countFlipped(playingCards).length === playingCards.length) { // Count flipped again.
-          this.gameState = 'finished'
-          this.endGame(playerInputElement, submitScoreElement, scoreBoardElement)
+          this.endGame()
         } else if (!firstCard.isEqualNode(secondCard)) {
           comparison = 'not same'
         }
@@ -142,30 +160,47 @@ Game.prototype.countFlipped = function (playingCards) {
   return flippedCards
 }
 
-Game.prototype.generateScoreBoard = function (scoreBoardElement, newPlayer) {
-  // 'scoreBoardElement' is for dicplaying scores from all the player.
+Game.prototype.generateScoreBoard = function (newPlayer) {
   // 'newPlayer' is active player.
-  const scoreData = `
+  const scoreBoardElement = document.getElementById('scoreBoard')
+  scoreBoardElement.innerHTML = ''
+
+  this.orderScores(this.players).forEach(member => {
+    scoreBoardElement.innerHTML += `
     <tr>
-      <td>${newPlayer.playerName}</td>
-      <td>${newPlayer.timePlayed}</td>
-      <td>${newPlayer.movesPlayed}</td>
-      <td>${newPlayer.playerScore}</td>
+      <td>${member.playerName}</td>
+      <td>${this.formatTime(member.timePlayed)}</td>
+      <td>${member.movesPlayed}</td>
+      <td>${member.playerScore}</td>
     </tr>
   `
-  scoreBoardElement.innerHTML += scoreData
+  })
+}
+
+Game.prototype.orderScores = function (players) {
+  return players.sort((a, b) => b.playerScore - a.playerScore)
+}
+
+Game.prototype.formatTime = function (timePlayed) {
+  let minutes = ''
+  let seconds = ''
+
+  if (timePlayed / 60 < 10) {
+    minutes = `0${(timePlayed / 60).toFixed(0)}`
+  } else minutes = `${(timePlayed / 60).toFixed(0)}`
+
+  if (timePlayed % 60 < 10) {
+    seconds = `0${timePlayed % 60}`
+  } else seconds = `${timePlayed % 60}`
+
+  return `${minutes}:${seconds}`
 }
 
 window.onload = () => {
-  document.getElementById('startGame').onclick = () => {
-    const gameTableElement = document.getElementById('gameTable')
-    const timerElement = document.getElementById('timer')
-    const playerInputElement = document.getElementById('playerInput')
-    const submitScoreElement = document.getElementById('submitScore')
-    const scoreBoardElement = document.getElementById('scoreBoard')
+  const newGame = new Game()
 
-    const newGame = new Game()
-    newGame.startGame(gameTableElement, timerElement, playerInputElement)
-    newGame.manageMoves(gameTableElement, playerInputElement, submitScoreElement, scoreBoardElement)
+  document.getElementById('startGame').onclick = () => {
+    newGame.startGame()
+    newGame.manageMoves()
   }
 }
