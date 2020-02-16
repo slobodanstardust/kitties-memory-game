@@ -21,8 +21,12 @@ Game.prototype.startGame = function () {
   const gameTableElement = document.getElementById('gameTable')
   const timerElement = document.getElementById('timer')
   const playerInputElement = document.getElementById('playerInput')
+  const movesElement = document.getElementById('moves')
   startElement.style.visibility = 'hidden'
   playerInputElement.style.visibility = 'hidden'
+  movesElement.style.visibility = 'visible'
+  timerElement.innerHTML = 'Time: 0:0'
+  movesElement.innerHTML = `Moves: ${this.moves}`
   this.gameState = 'running'
   this.generateTable(gameTableElement)
   this.setTimer(timerElement)
@@ -32,11 +36,14 @@ Game.prototype.endGame = function () {
   const startElement = document.getElementById('startGame')
   const playerInputElement = document.getElementById('playerInput')
   const submitScoreElement = document.getElementById('submitScore')
+  const gameTableElement = document.getElementById('gameTable')
+  const tableElement = document.querySelector('table')
   const finalScore = ((60 / this.time) * (6 / this.moves) * 10000).toFixed(0)
   playerInputElement.style.visibility = 'visible' // Player can enter a name and submit score only after the game is finished.
   this.gameState = 'finished'
 
   submitScoreElement.onclick = () => {
+    gameTableElement.style.visibility = 'hidden'
     const playerName = playerInputElement.playerName.value // The playerInputElement must contain text input field for entering a player's name with name="playerName".
     if (playerName === '' || playerName.length > 10) {
       window.alert('Enter your name (maximum 10 characters)!')
@@ -47,6 +54,7 @@ Game.prototype.endGame = function () {
       playerInputElement.playerName.value = ''
       playerInputElement.style.visibility = 'hidden'
       startElement.style.visibility = 'visible'
+      tableElement.style.visibility = 'visible'
       this.time = 0
       this.moves = 0
     }
@@ -56,6 +64,7 @@ Game.prototype.endGame = function () {
 Game.prototype.generateTable = function () {
   const gameTableElement = document.getElementById('gameTable')
   gameTableElement.innerHTML = ''
+  gameTableElement.style.visibility = 'visible'
   let gameCard = ''
   let gameDeck = ['cat1', 'cat1', 'cat2', 'cat2', 'cat3', 'cat3', 'cat4', 'cat4', 'cat5', 'cat5', 'cat6', 'cat6']
   gameDeck = this.shuffleDeck(gameDeck)
@@ -90,6 +99,7 @@ Game.prototype.shuffleDeck = function (gameDeck) {
 
 Game.prototype.setTimer = function () {
   const timerElement = document.getElementById('timer')
+  timerElement.style.visibility = 'visible'
   let seconds = 0
   let minutes = 0
 
@@ -97,14 +107,14 @@ Game.prototype.setTimer = function () {
     if (this.gameState === 'running') {
       this.time++
 
-      if (seconds === 60) {
+      if (seconds === 59) {
         minutes++
-        seconds = 1
+        seconds = 0
       } else {
         seconds++
       }
 
-      timerElement.innerHTML = `${minutes}:${seconds}`
+      timerElement.innerHTML = `Time: ${minutes}:${seconds}`
     } else if (this.gameState === 'finished') {
       clearInterval(timer)
 
@@ -115,6 +125,7 @@ Game.prototype.setTimer = function () {
 
 Game.prototype.manageMoves = function () {
   const gameTableElement = document.getElementById('gameTable')
+  const movesElement = document.getElementById('moves')
   const playingCards = gameTableElement.children
   let firstCard = null
   let secondCard = null
@@ -133,12 +144,13 @@ Game.prototype.manageMoves = function () {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       const flippedCards = this.countFlipped(playingCards)
       playingCards[i].classList.add('flipped')
-      
+
       if (flippedCards.length % 2 === 0) {
         firstCard = playingCards[i]
       } else if (!lastClilcked.isSameNode(playingCards[i])) {
         secondCard = playingCards[i]
         this.moves++
+        movesElement.innerHTML = `Moves: ${this.moves}`
 
         if (firstCard.isEqualNode(secondCard) && this.countFlipped(playingCards).length === playingCards.length) { // Count flipped again.
           this.endGame()

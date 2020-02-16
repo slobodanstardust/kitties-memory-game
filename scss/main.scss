@@ -8,28 +8,111 @@
 body {
     background: url(../images/wall.jpeg) no-repeat center center fixed;
     background-size: cover;
+    font-family: $mainFont;
+}
+
+h1 {
+    margin-bottom: 1em;
+    text-align: center;
+    font-weight: 900;
+    color: white;
+    text-shadow: $textShadow;
+    font-size: 3em;
+}
+
+#timer {
+    visibility: hidden;
+    float: left;
+    margin-bottom: 1em;
+    font-weight: 900;
+    color: white;
+    text-shadow: $textShadow;
+}
+
+#moves {
+    visibility: hidden;
+    float: right;
+    margin-bottom: 1em;
+    font-weight: 900;
+    color: white;
+    text-shadow: $textShadow;
+}
+
+.info {
+    @include clearfix;
+    padding: 0 1em;
 }
 
 #gameTable {
     margin: 0 auto;
+    @include clearfix;
+}
+
+table {
+    visibility: hidden;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 1.4em;
+    box-shadow: $boxShadow;
+    
+    th, td {
+        text-align: left;
+        padding: 0.6em 1em;
+    }
+    
+    tr {
+        
+        &:nth-child(even) {
+            background-color: rgba($color: #ffffff, $alpha: 0.9);
+        }
+        
+        &:nth-child(odd) {
+            background-color: rgba($color: #ffffff, $alpha: 0.8);
+        }
+    }
+
+    thead {
+
+        tr:first-child {
+            background-color: rgba($color: #ffffff, $alpha: 1.0);
+        }
+    }
+}
+
+#startGame {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.2em 1em;
+    background-color: orange;
+    border-radius: 0.2em;
+    color: white;
+    font-weight: 800;
+    font-size: 2em;
+    box-shadow: $boxShadow;
+    cursor: pointer;
 }
 
 .wrapper {
+    position: relative;
     width: 60vw;
-    height: 100vh;
-    padding: 2% 10% 0;
+    min-height: 100vh;
+    padding: 2% 10%;
     margin: 0em auto;
-    background-color: rgba($color: #ffffff, $alpha: 0.5);
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    text-align: center;
 }
 
 .gameCard {
     position: relative;
     float: left;
-    margin-bottom: 4%;
+    margin-bottom: 1.8em;
     width: 22%;
-    height: 12em;
+    height: 11em;
     border-radius: 0.5em;
-    box-shadow: 0 0.1em 0.3em 0 rgba($color: #000000, $alpha: 0.5);
+    box-shadow: $boxShadow;
+    cursor: pointer;
 
     &:not(:nth-child(4n+0)) {
         margin-right: 4%;

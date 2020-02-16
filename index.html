@@ -3,23 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Kanit:400,700,800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <script src="js/main.js"></script>
-    <title>The Memory Game</title>
+    <title>Kitties Memory Game</title>
 </head>
 
 <body>
     <div class="wrapper">
-        <button id="startGame">Start The Game</button>
-        
+        <h1>Kitties Memory Game</h1>
+
+        <div id="startGame">START</div>
+
         <div id="gameTable">
             <!-- The game starts here. -->
         </div>
     
-        <h3 id="timer">
-            <!-- Timer here. -->
-        </h3>
+        <div class="info">
+            <h2 id="timer">
+                <!-- Timer here. -->
+            </h2>
+    
+            <h2 id="moves">
+                <!-- Moves count here. -->
+            </h2>
+        </div>
     
         <form action="" id="playerInput">
             <input type="text" name="playerName">
@@ -35,6 +45,7 @@
                     <th>Score</th>
                 </tr>
             </thead>
+
             <tbody id="scoreBoard">
                 <!-- Scores go here. -->
             </tbody>
