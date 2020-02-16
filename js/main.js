@@ -12,7 +12,7 @@ function Player (name, time, moves, score) {
 function Game () {
   this.time = 0
   this.moves = 0
-  this.gameState = 'running' // Can be 'running' or 'finished'.
+  this.gameState = 'running'
   this.players = []
 }
 
@@ -20,10 +20,8 @@ Game.prototype.startGame = function () {
   const startElement = document.getElementById('startGame')
   const gameTableElement = document.getElementById('gameTable')
   const timerElement = document.getElementById('timer')
-  const playerInputElement = document.getElementById('playerInput')
   const movesElement = document.getElementById('moves')
   startElement.style.visibility = 'hidden'
-  playerInputElement.style.visibility = 'hidden'
   movesElement.style.visibility = 'visible'
   timerElement.innerHTML = 'Time: 0:0'
   movesElement.innerHTML = `Moves: ${this.moves}`
@@ -38,21 +36,22 @@ Game.prototype.endGame = function () {
   const submitScoreElement = document.getElementById('submitScore')
   const gameTableElement = document.getElementById('gameTable')
   const tableElement = document.querySelector('table')
+  const modalElement = document.querySelector('.modal')
   const finalScore = ((60 / this.time) * (6 / this.moves) * 10000).toFixed(0)
-  playerInputElement.style.visibility = 'visible' // Player can enter a name and submit score only after the game is finished.
+  modalElement.style.display = 'block'
   this.gameState = 'finished'
 
   submitScoreElement.onclick = () => {
     gameTableElement.style.visibility = 'hidden'
-    const playerName = playerInputElement.playerName.value // The playerInputElement must contain text input field for entering a player's name with name="playerName".
+    modalElement.style.display = 'none'
+    const playerName = playerInputElement.value
     if (playerName === '' || playerName.length > 10) {
       window.alert('Enter your name (maximum 10 characters)!')
     } else {
       const newPlayer = new Player(playerName, this.time, this.moves, finalScore)
       this.players.push(newPlayer)
       this.generateScoreBoard(newPlayer)
-      playerInputElement.playerName.value = ''
-      playerInputElement.style.visibility = 'hidden'
+      playerInputElement.value = ''
       startElement.style.visibility = 'visible'
       tableElement.style.visibility = 'visible'
       this.time = 0
@@ -152,7 +151,7 @@ Game.prototype.manageMoves = function () {
         this.moves++
         movesElement.innerHTML = `Moves: ${this.moves}`
 
-        if (firstCard.isEqualNode(secondCard) && this.countFlipped(playingCards).length === playingCards.length) { // Count flipped again.
+        if (firstCard.isEqualNode(secondCard) && this.countFlipped(playingCards).length === playingCards.length) {
           this.endGame()
         } else if (!firstCard.isEqualNode(secondCard)) {
           comparison = 'not same'

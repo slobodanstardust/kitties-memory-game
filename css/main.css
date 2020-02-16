@@ -170,8 +170,56 @@ table thead tr:first-child {
   visibility: hidden;
 }
 
-#playerInput {
-  visibility: hidden;
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 20em;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  background-color: orange;
+  margin: auto;
+  padding: 3em;
+  width: 20em;
+  border-radius: 0.5em;
+  box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.5);
+}
+.modal-content input {
+  display: block;
+  border: none;
+  font-size: 1.2em;
+  padding: 0.6em;
+  border-radius: 0.2em;
+  width: 100%;
+  font-family: "Kanit", sans-serif;
+  color: orange;
+  margin-bottom: 1em;
+  box-shadow: inset 0 0 0.2rem rgba(0, 0, 0, 0.5);
+}
+.modal-content input:focus {
+  outline: none;
+}
+.modal-content input::placeholder {
+  color: orange;
+}
+
+#submitScore {
+  padding: 0.2em 1em;
+  width: 100%;
+  background-color: lightseagreen;
+  border-radius: 0.2em;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2em;
+  box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */
