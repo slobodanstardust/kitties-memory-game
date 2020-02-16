@@ -105,7 +105,6 @@ Game.prototype.setTimer = function () {
       }
 
       timerElement.innerHTML = `${minutes}:${seconds}`
-      console.log(this.time)
     } else if (this.gameState === 'finished') {
       clearInterval(timer)
 
@@ -119,6 +118,7 @@ Game.prototype.manageMoves = function () {
   const playingCards = gameTableElement.children
   let firstCard = null
   let secondCard = null
+  let lastClilcked = null
   let comparison = 'same'
 
   for (let i = 0; i < playingCards.length; i++) {
@@ -133,10 +133,10 @@ Game.prototype.manageMoves = function () {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       const flippedCards = this.countFlipped(playingCards)
       playingCards[i].classList.add('flipped')
-
+      
       if (flippedCards.length % 2 === 0) {
         firstCard = playingCards[i]
-      } else {
+      } else if (!lastClilcked.isSameNode(playingCards[i])) {
         secondCard = playingCards[i]
         this.moves++
 
@@ -146,6 +146,8 @@ Game.prototype.manageMoves = function () {
           comparison = 'not same'
         }
       }
+
+      lastClilcked = playingCards[i]
     }
   }
 }
