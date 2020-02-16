@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script>
     <title>The Memory Game</title>
 </head>
 
 <body>
-    <button id="startGame">Start The Game</button>
-    <div id="gameTable">
-        <!-- The game starts here. -->
+    <div class="wrapper">
+        <button id="startGame">Start The Game</button>
+        
+        <div id="gameTable">
+            <!-- The game starts here. -->
+        </div>
+    
+        <h3 id="timer">
+            <!-- Timer here. -->
+        </h3>
+    
+        <form action="" id="playerInput">
+            <input type="text" name="playerName">
+            <button type="button" id="submitScore">Submit Your Score</button>
+        </form>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Time</th>
+                    <th>Moves</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="scoreBoard">
+                <!-- Scores go here. -->
+            </tbody>
+        </table>
     </div>
-
-    <h3 id="timer">
-        <!-- Timer here. -->
-    </h3>
-
-    <form action="" id="playerInput">
-        <input type="text" name="playerName">
-        <button type="button" id="submitScore">Submit Your Score</button>
-    </form>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Player</th>
-                <th>Time</th>
-                <th>Moves</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody id="scoreBoard">
-            <!-- Scores go here. -->
-        </tbody>
-    </table>
 </body>
 </html>

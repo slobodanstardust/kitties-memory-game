@@ -32,7 +32,7 @@ Game.prototype.endGame = function () {
   const startElement = document.getElementById('startGame')
   const playerInputElement = document.getElementById('playerInput')
   const submitScoreElement = document.getElementById('submitScore')
-  const finalScore = (this.time / this.moves * 1000).toFixed(0)
+  const finalScore = ((60 / this.time) * (6 / this.moves) * 10000).toFixed(0)
   playerInputElement.style.visibility = 'visible' // Player can enter a name and submit score only after the game is finished.
   this.gameState = 'finished'
 
@@ -57,14 +57,14 @@ Game.prototype.generateTable = function () {
   const gameTableElement = document.getElementById('gameTable')
   gameTableElement.innerHTML = ''
   let gameCard = ''
-  let gameDeck = ['redCard', 'redCard', 'greenCard', 'greenCard', 'blueCard', 'blueCard']
+  let gameDeck = ['cat1', 'cat1', 'cat2', 'cat2', 'cat3', 'cat3', 'cat4', 'cat4', 'cat5', 'cat5', 'cat6', 'cat6']
   gameDeck = this.shuffleDeck(gameDeck)
 
   gameDeck.forEach(member => {
     gameCard = `
-      <div class="gameCard ${member}">
-        <div class="front">${member}</div>
-        <div class="back">${member}</div>
+      <div class="gameCard">
+        <div class="front ${member}"></div>
+        <div class="back"></div>
       </div>
     `
     gameTableElement.innerHTML += gameCard
@@ -197,6 +197,8 @@ Game.prototype.formatTime = function (timePlayed) {
 
   return `${minutes}:${seconds}`
 }
+
+// Game body
 
 window.onload = () => {
   const newGame = new Game()

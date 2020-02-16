@@ -1,0 +1,25 @@
+@mixin clearfix() {
+    &::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+}
+
+@mixin responsive($screenSize) {
+    @if $screenSize == medium-size {
+      @media (max-width: 1200px) { @content; }
+    }
+    
+    @else if $screenSize == small-size {
+      @media (max-width: 800px) { @content; }
+    }
+    
+    @else if $screenSize == mini-size {
+      @media (max-width: 400px) { @content; }
+    }
+    
+    @else {
+      @warn "Responsive mixin supports: medium-size, small-size, mini-size.";
+    }
+}
