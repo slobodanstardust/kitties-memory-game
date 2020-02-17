@@ -3,6 +3,12 @@
 
 :root {
     font-size: 16px;
+    @include responsive(medium-size) {
+        font-size: 12px;
+    }
+    @include responsive(mini-size) {
+        font-size: 8px;
+    }
 }
 
 body {
@@ -96,12 +102,15 @@ table {
 
 .wrapper {
     position: relative;
-    width: 60vw;
+    width: 60%;
     min-height: 100vh;
     padding: 2% 10%;
     margin: 0em auto;
     background-color: rgba($color: #000000, $alpha: 0.3);
     text-align: center;
+    @include responsive(small-size) {
+        width: 100%;
+    }
 }
 
 .gameCard {
@@ -109,13 +118,26 @@ table {
     float: left;
     margin-bottom: 1.8em;
     width: 22%;
-    height: 11em;
+    height: 18vh;
     border-radius: 0.5em;
     box-shadow: $boxShadow;
     cursor: pointer;
+    @include responsive(mini-size) {
+        width: 30%;
+        height: 16vh;
+    }
 
     &:not(:nth-child(4n+0)) {
         margin-right: 4%;
+        @include responsive(mini-size) {
+            margin-right: 0;
+        }
+    }
+
+    @include responsive(mini-size) {
+        &:not(:nth-child(3n+0)) {
+            margin-right: 5%;
+        }
     }
 }
 

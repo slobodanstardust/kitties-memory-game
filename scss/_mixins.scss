@@ -8,15 +8,15 @@
 
 @mixin responsive($screenSize) {
     @if $screenSize == medium-size {
-      @media (max-width: 1200px) { @content; }
+      @media (max-width: 1366px) { @content; }
     }
     
     @else if $screenSize == small-size {
-      @media (max-width: 800px) { @content; }
+      @media (max-width: 920px) { @content; }
     }
     
     @else if $screenSize == mini-size {
-      @media (max-width: 400px) { @content; }
+      @media (max-width: 460px) { @content; }
     }
     
     @else {

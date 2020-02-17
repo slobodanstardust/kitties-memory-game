@@ -1,6 +1,16 @@
 :root {
   font-size: 16px;
 }
+@media (max-width: 1366px) {
+  :root {
+    font-size: 12px;
+  }
+}
+@media (max-width: 460px) {
+  :root {
+    font-size: 8px;
+  }
+}
 
 body {
   background: url(../images/wall.jpeg) no-repeat center center fixed;
@@ -91,12 +101,17 @@ table thead tr:first-child {
 
 .wrapper {
   position: relative;
-  width: 60vw;
+  width: 60%;
   min-height: 100vh;
   padding: 2% 10%;
   margin: 0em auto;
   background-color: rgba(0, 0, 0, 0.3);
   text-align: center;
+}
+@media (max-width: 920px) {
+  .wrapper {
+    width: 100%;
+  }
 }
 
 .gameCard {
@@ -104,13 +119,29 @@ table thead tr:first-child {
   float: left;
   margin-bottom: 1.8em;
   width: 22%;
-  height: 11em;
+  height: 18vh;
   border-radius: 0.5em;
   box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
+@media (max-width: 460px) {
+  .gameCard {
+    width: 30%;
+    height: 16vh;
+  }
+}
 .gameCard:not(:nth-child(4n+0)) {
   margin-right: 4%;
+}
+@media (max-width: 460px) {
+  .gameCard:not(:nth-child(4n+0)) {
+    margin-right: 0;
+  }
+}
+@media (max-width: 460px) {
+  .gameCard:not(:nth-child(3n+0)) {
+    margin-right: 5%;
+  }
 }
 
 .back {

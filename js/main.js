@@ -14,56 +14,55 @@ function Game () {
   this.moves = 0
   this.gameState = 'running'
   this.players = []
+  this.startElement = document.getElementById('startGame')
+  this.gameTableElement = document.getElementById('gameTable')
+  this.timerElement = document.getElementById('timer')
+  this.movesElement = document.getElementById('moves')
+  this.playerInputElement = document.getElementById('playerInput')
+  this.submitScoreElement = document.getElementById('submitScore')
+  this.scoreBoardElement = document.getElementById('scoreBoard')
+  this.tableElement = document.querySelector('table')
+  this.modalElement = document.querySelector('.modal')
 }
 
 Game.prototype.startGame = function () {
-  const startElement = document.getElementById('startGame')
-  const gameTableElement = document.getElementById('gameTable')
-  const timerElement = document.getElementById('timer')
-  const movesElement = document.getElementById('moves')
-  startElement.style.visibility = 'hidden'
-  movesElement.style.visibility = 'visible'
-  timerElement.innerHTML = 'Time: 0:0'
-  movesElement.innerHTML = `Moves: ${this.moves}`
-  this.gameState = 'running'
-  this.generateTable(gameTableElement)
-  this.setTimer(timerElement)
+  this.startElement.style.visibility = 'hidden' // Hides 'Start' button when the game starts.
+  this.generateTable(this.gameTableElement) // Generates the cards on the table.
+  this.movesElement.style.visibility = 'visible' // Initiate moves counter indicator.
+  this.movesElement.innerHTML = `Moves: ${this.moves}` // Initiate moves counter indicator.
+  this.timerElement.innerHTML = 'Time: 0:0' // Initiate time indicator.
+  this.gameState = 'running' // For timer to run.
+  this.setTimer(this.timerElement) // Start the timer.
 }
 
 Game.prototype.endGame = function () {
-  const startElement = document.getElementById('startGame')
-  const playerInputElement = document.getElementById('playerInput')
-  const submitScoreElement = document.getElementById('submitScore')
-  const gameTableElement = document.getElementById('gameTable')
-  const tableElement = document.querySelector('table')
-  const modalElement = document.querySelector('.modal')
-  const finalScore = ((60 / this.time) * (6 / this.moves) * 10000).toFixed(0)
-  modalElement.style.display = 'block'
-  this.gameState = 'finished'
+  const finalScore = ((60 / this.time) * (6 / this.moves) * 10000).toFixed(0) // Calculate final score. I still need a good formula.
+  this.modalElement.style.display = 'block' // Activate modal for player name input after the game is finished.
+  this.gameState = 'finished' // For timer to stop.
 
-  submitScoreElement.onclick = () => {
-    gameTableElement.style.visibility = 'hidden'
-    modalElement.style.display = 'none'
-    const playerName = playerInputElement.value
-    if (playerName === '' || playerName.length > 10) {
+  this.submitScoreElement.onclick = () => {
+    this.gameTableElement.style.visibility = 'hidden' // Hide cards so the 'Start' button can be shown.
+    this.modalElement.style.display = 'none' // Remove modal when 'submit' button is pushed.
+    const playerName = this.playerInputElement.value
+
+    if (playerName === '' || playerName.length > 10) { // Validate player's name.
       window.alert('Enter your name (maximum 10 characters)!')
     } else {
-      const newPlayer = new Player(playerName, this.time, this.moves, finalScore)
-      this.players.push(newPlayer)
-      this.generateScoreBoard(newPlayer)
-      playerInputElement.value = ''
-      startElement.style.visibility = 'visible'
-      tableElement.style.visibility = 'visible'
-      this.time = 0
-      this.moves = 0
+      const newPlayer = new Player(playerName, this.time, this.moves, finalScore) // All OK. Create a new player.
+      this.players.push(newPlayer) // Add new player in players array for the score board.
+      this.generateScoreBoard() // Generats score board with all the players from players array.
+      this.playerInputElement.value = '' // Resets the player's name input area.
+      this.tableElement.style.visibility = 'visible' // Displays the score board.
+      this.startElement.style.visibility = 'visible' // Displays the 'Start' button.
+      this.time = 0 // Reset time.
+      this.moves = 0 // Reset moves count.
     }
   }
 }
 
 Game.prototype.generateTable = function () {
-  const gameTableElement = document.getElementById('gameTable')
-  gameTableElement.innerHTML = ''
-  gameTableElement.style.visibility = 'visible'
+  this.gameTableElement.innerHTML = ''
+  this.gameTableElement.style.visibility = 'visible'
   let gameCard = ''
   let gameDeck = ['cat1', 'cat1', 'cat2', 'cat2', 'cat3', 'cat3', 'cat4', 'cat4', 'cat5', 'cat5', 'cat6', 'cat6']
   gameDeck = this.shuffleDeck(gameDeck)
@@ -75,12 +74,11 @@ Game.prototype.generateTable = function () {
         <div class="back"></div>
       </div>
     `
-    gameTableElement.innerHTML += gameCard
+    this.gameTableElement.innerHTML += gameCard
   })
 }
 
 Game.prototype.shuffleDeck = function (gameDeck) {
-  // 'gameDeck' contains an array with classes for playing cards.
   const min = Math.ceil(0)
   const max = Math.floor(gameDeck.length - 1)
   let newPosition = 0
@@ -93,12 +91,11 @@ Game.prototype.shuffleDeck = function (gameDeck) {
     gameDeck[newPosition] = temp
   }
 
-  return gameDeck // Returns shuffled array.
+  return gameDeck
 }
 
 Game.prototype.setTimer = function () {
-  const timerElement = document.getElementById('timer')
-  timerElement.style.visibility = 'visible'
+  this.timerElement.style.visibility = 'visible'
   let seconds = 0
   let minutes = 0
 
@@ -113,19 +110,16 @@ Game.prototype.setTimer = function () {
         seconds++
       }
 
-      timerElement.innerHTML = `Time: ${minutes}:${seconds}`
+      this.timerElement.innerHTML = `Time: ${minutes}:${seconds}`
     } else if (this.gameState === 'finished') {
       clearInterval(timer)
-
-      timerElement.innerHTML = `Finished in ${minutes} minutes and ${seconds} seconds.`
+      this.timerElement.innerHTML = `Finished in ${minutes} minutes and ${seconds} seconds.`
     }
   }, 1000)
 }
 
 Game.prototype.manageMoves = function () {
-  const gameTableElement = document.getElementById('gameTable')
-  const movesElement = document.getElementById('moves')
-  const playingCards = gameTableElement.children
+  const playingCards = this.gameTableElement.children
   let firstCard = null
   let secondCard = null
   let lastClilcked = null
@@ -133,14 +127,12 @@ Game.prototype.manageMoves = function () {
 
   for (let i = 0; i < playingCards.length; i++) {
     playingCards[i].onclick = () => {
-      // If in a last move player didn't found the same cards.
       if (comparison === 'not same') {
         firstCard.classList.remove('flipped')
         secondCard.classList.remove('flipped')
       }
 
       comparison = 'same'
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       const flippedCards = this.countFlipped(playingCards)
       playingCards[i].classList.add('flipped')
 
@@ -149,7 +141,7 @@ Game.prototype.manageMoves = function () {
       } else if (!lastClilcked.isSameNode(playingCards[i])) {
         secondCard = playingCards[i]
         this.moves++
-        movesElement.innerHTML = `Moves: ${this.moves}`
+        this.movesElement.innerHTML = `Moves: ${this.moves}`
 
         if (firstCard.isEqualNode(secondCard) && this.countFlipped(playingCards).length === playingCards.length) {
           this.endGame()
@@ -164,7 +156,6 @@ Game.prototype.manageMoves = function () {
 }
 
 Game.prototype.countFlipped = function (playingCards) {
-  // 'playingCards' is an array of card elements.
   const playingCardsArray = [...playingCards]
   const flippedCards = playingCardsArray.filter(member => {
     return member.classList.contains('flipped')
@@ -173,13 +164,11 @@ Game.prototype.countFlipped = function (playingCards) {
   return flippedCards
 }
 
-Game.prototype.generateScoreBoard = function (newPlayer) {
-  // 'newPlayer' is active player.
-  const scoreBoardElement = document.getElementById('scoreBoard')
-  scoreBoardElement.innerHTML = ''
+Game.prototype.generateScoreBoard = function () {
+  this.scoreBoardElement.innerHTML = ''
 
   this.orderScores(this.players).forEach(member => {
-    scoreBoardElement.innerHTML += `
+    this.scoreBoardElement.innerHTML += `
     <tr>
       <td>${member.playerName}</td>
       <td>${this.formatTime(member.timePlayed)}</td>
