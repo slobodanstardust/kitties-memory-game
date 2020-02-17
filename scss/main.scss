@@ -26,32 +26,9 @@ h1 {
     font-size: 3em;
 }
 
-#timer {
-    visibility: hidden;
-    float: left;
-    margin-bottom: 1em;
-    font-weight: 900;
-    color: white;
-    text-shadow: $textShadow;
-}
-
-#moves {
-    visibility: hidden;
-    float: right;
-    margin-bottom: 1em;
-    font-weight: 900;
-    color: white;
-    text-shadow: $textShadow;
-}
-
 .info {
     @include clearfix;
     padding: 0 1em;
-}
-
-#gameTable {
-    margin: 0 auto;
-    @include clearfix;
 }
 
 table {
@@ -83,21 +60,6 @@ table {
             background-color: rgba($color: #ffffff, $alpha: 1.0);
         }
     }
-}
-
-#startGame {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 0.2em 1em;
-    background-color: orange;
-    border-radius: 0.2em;
-    color: white;
-    font-weight: 800;
-    font-size: 2em;
-    box-shadow: $boxShadow;
-    cursor: pointer;
 }
 
 .wrapper {
@@ -253,4 +215,42 @@ table {
     font-size: 1.2em;
     box-shadow: $boxShadow;
     cursor: pointer;
+}
+
+#timer {
+    visibility: hidden;
+    float: left;
+    margin-bottom: 1em;
+    font-weight: 900;
+    color: white;
+    text-shadow: $textShadow;
+}
+
+#moves {
+    visibility: hidden;
+    float: right;
+    margin-bottom: 1em;
+    font-weight: 900;
+    color: white;
+    text-shadow: $textShadow;
+}
+
+#startGame {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.2em 1em;
+    background-color: orange;
+    border-radius: 0.2em;
+    color: white;
+    font-weight: 800;
+    font-size: 2em;
+    box-shadow: $boxShadow;
+    cursor: pointer;
+}
+
+#gameTable {
+    margin: 0 auto;
+    @include clearfix;
 }
